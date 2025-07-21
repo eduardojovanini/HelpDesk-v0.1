@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Chamados</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <h1>📋 Chamados de Suporte</h1>
+    <a href="/criar">➕ Abrir Novo Chamado</a>
+    <div>
+        <strong>Filtrar por status:</strong>
+        <a href="/?filtro=todos">📋 Todos</a> |
+        <a href="/?filtro=abertos">🟡 Abertos</a> |
+        <a href="/?filtro=resolvidos">✅ Resolvidos</a>
+    </div>
+<br>
+
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Nome</th>
+        <th>Descrição</th>
+        <th>Categoria</th>
+        <th>Status</th>
+        <th>Ações</th>
+    </tr>
+    {% for chamado in chamados %}
+    <tr>
+        <td>{{ chamado[0] }}</td>
+        <td>{{ chamado[1] }}</td>
+        <td>{{ chamado[2] }}</td>
+        <td>{{ chamado[3] }}</td>
+        <td>{{ chamado[4] }}</td>
+        <td>
+            {% if chamado[4] == 'Aberto' %}
+                <form action="/resolver/{{ chamado[0] }}" method="post">
+                    <button type="submit">Marcar como Resolvido</button>
+                </form>
+            {% else %}
+                ✅
+            {% endif %}
+        </td>
+    </tr>
+    {% endfor %}
+    <p style="text-align:right;">
+    Logado como: <strong>{{ session['usuario'] }}</strong> |
+    <a href="/logout">Sair</a>
+    </p>
+
+</table>
+
+</body>
+</html>
